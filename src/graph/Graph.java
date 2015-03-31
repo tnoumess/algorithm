@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
+import java.util.Stack;
 
 public class Graph implements Cloneable{
 	
@@ -56,12 +57,65 @@ public class Graph implements Cloneable{
 		System.out.println("visited:" +v.getName());
 				
 	}
-	
+	/*
+	 * Breadth First Search
+	 * 
+	 * */
+	public void DFS() throws CloneNotSupportedException {
+		Graph g=new Graph();
+		g=(Graph) this.clone();//immutable super
+		if(g.rootvertex==null){
+			return;
+		}
+		Stack<Vertex> s=new Stack<Vertex>();
+		s.push(rootvertex);
+		visit(rootvertex);
+		rootvertex.setVisited(true);
+		System.out.println(" stack:"+s);
+		System.out.println("------------------------------");
+		while(!s.empty()){
+			
+			Vertex v=s.peek();
+			int i=0;
+			System.out.println("-------------search--------------"+s.peek());
+			System.out.println("size"+v.outE.size());
+			System.out.println("outer visited:"+v.outE.get(i).to.isVisited());
+			System.out.println();
+			while((v.outE.size()>0)&&(i<v.outE.size())){
+			
+				System.out.println(" inner loop visited="+v.outE.get(i).to);
+				System.out.println("visited:"+v.outE.get(i).to.isVisited());
+				
+				if((v.outE.get(i).to.isVisited()==false)){
+					v=v.outE.get(i).to;
+				break;
+				}
+				i++;
+			}
+			System.out.println("---------end search------------------");
+					
+			if(!v.isVisited()){
+				System.out.println("------about to visit-------");
+				s.push(v);
+				visit(v);
+				v.setVisited(true);
+			}else{
+				System.out.println("-----about to pop the stack-----");
+				s.pop();
+				System.out.println("stack popped:"+s);
+			}
+		       }
+		
+		
+	}
+	/*
+	 * Breadth First Search
+	 * 
+	 * */
 	public  void BFS() throws CloneNotSupportedException{
 		
 		Graph g=new Graph();
-		g=(Graph) this.clone();
-		System.out.println(this==g);
+		g=(Graph) this.clone();//immutable super
 		if(g.rootvertex==null){
 			return;
 		}
@@ -70,24 +124,24 @@ public class Graph implements Cloneable{
 		visit(g.rootvertex);
 		g.rootvertex.setVisited(true);
 		q.add(g.rootvertex);
-		//System.out.println(this.rootvertex.equals(q.peek()));
+		
 		while(!q.isEmpty()){
-			//System.out.println("queue size="+q.size());
+			
 			Vertex v=q.peek();
 			
-			System.out.println("outter size="+v.outE.size());
-		
+			System.out.println(v.getName()+" outter size="+v.outE.size());
+			System.out.println("Dequeue="+q.peek());
 			q.remove();
 			
 			for(int i=0;i<=v.outE.size()-1;i++){
 				Vertex vv=v.outE.get(i).to;
 				if(!vv.isVisited()){
-					System.out.println(i);
+					System.out.println("Node of work:"+v.getName()+"   size of ougoing:"+v.outE.size());
 					visit(vv);
 					vv.setVisited(true);
-				    
+					System.out.println("Enqueue="+vv.getName());
 					q.add(vv);
-					System.out.println("size q="+q);
+					System.out.println("Queue values:"+q);
 				}
 			}
 			
@@ -146,15 +200,15 @@ public class Graph implements Cloneable{
     v4.addedgein(e5);v4.addedgein(e7);v4.addedgeout(e6);v4.addedgeout(e8);
     v5.addedgein(e3);v5.addedgein(e10);v5.addedgeout(e9);
     v6.addedgein(e9);v6.addedgein(e8);v6.addedgein(e11);v6.addedgeout(e10);v6.addedgeout(e12);
-    v7.addedgein(e12);v7.addedgeout(e13);v7.addedgeout(e12);
+    v7.addedgein(e12);v7.addedgeout(e13);v7.addedgeout(e11);
     g.addvertex(v1);g.addvertex(v2);g.addvertex(v3);g.addvertex(v4);g.addvertex(v5);
     g.addvertex(v6);g.addvertex(v7);
     g.addedge(e1); g.addedge(e2); g.addedge(e3); g.addedge(e4); g.addedge(e5); g.addedge(e6);
     g.addedge(e7); g.addedge(e8); g.addedge(e9); g.addedge(e10); g.addedge(e11); g.addedge(e12);
     g.addedge(e13);
     g.setRootVertex(v1);
-    g.BFS();
-System.out.println(g.toString());
+    g.DFS();
+//System.out.println(g.toString());
 	}
 
 }
