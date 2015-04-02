@@ -14,7 +14,10 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
 import java.util.Stack;
-
+/*
+ * Weighted Digraph  
+ * 
+ */
 public class Graph implements Cloneable{
 	
 	List<Vertex> verticies;
