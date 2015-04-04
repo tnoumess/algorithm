@@ -1,6 +1,15 @@
 /**
- * 
- */
+	 *  Binary Search Tree
+	  * 
+	 * Abstraction function is
+	 * AF(r)=([root=Node [value=v1, left=Node[ value=v2, left=Node[...], right=Node[... ]],
+	 *                              right=Node[ value=v3, left=Node[...], right=Node[...] ])
+	 * 
+	 * List of operations: Insertion(E key), Find(E Key), GetHeight(), 
+	 *                     GetDepth(E key), PrintTree(), Delete(E Key).
+	 * 
+	 *  
+	 */
 package tree;
 
 /**
@@ -53,9 +62,22 @@ private Node<E> insert(E val, Node<E> n){
 	return n;
 	
 }
-
-public void delete(int val){}
-
+/*
+public void delete(E val){
+	
+	root=delete(val,root);
+}
+private Node<E> delete(E val,Node<E> n){
+	System.out.print("");
+	if(n==null){
+				 
+	}
+	else{
+	if(compare(val,n.getValue())<0){n.left=delete(val,n.left);}
+	if(compare(val,n.getValue())>0){n.right= delete(val,n.right);}
+	}
+	return n;
+}*/
 
 /**
  * 
@@ -258,7 +280,6 @@ public String toString() {
 		b.printInorder();
 		System.out.println(b.depth("0yz"));
 	}
-
 
 	
 }

@@ -16,6 +16,7 @@ import java.util.Comparator;
 //E is element of the collection and must also be comparable
 public class Node<E extends Comparable<E>> implements Comparator<E>  {
 	
+	
 	private E value;
 	Node<E> left;
 	Node<E> right;

@@ -19,7 +19,7 @@ public class Utils {
 		a[i]=a[j];
 		a[j]=temp;
 		}
-		System.out.println("swapped");		
+		//System.out.println("swapped");		
 	}
 	
 	public static int[] merge(int[] dest,int[] left,int[] right){
