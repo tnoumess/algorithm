@@ -12,7 +12,7 @@ package sorting;
  * 
  *  bubble sort
  */
-public class Bubble {
+public class Bubble<E extends Comparable<E>> {
 	
 	int[] a;
 	
@@ -54,6 +54,41 @@ public class Bubble {
 		
 	}
 	
+	
+	public static <E extends Comparable<E>> E[] Sort(E[] a){
+		/**
+		 * Precondition: a is and unordered array of integer
+		 * Postcondition: c is an ordered copy of a
+		 */
+		
+		boolean swapped=false;
+		if(a.length<2)
+			return a;
+		
+		else{
+			
+			for(int i=a.length-1; i>0;i--){
+				
+				
+				for(int j=0;j<i;j++){
+					if(((Comparable<E>) a[j]).compareTo(a[j+1])>0){
+						Utils.swap(a, j, j+1);	
+						swapped=true;
+					}
+					
+				}
+				if(swapped==false)
+					return a;
+			}
+			return a;
+		}
+		
+	}
+	
+	/**
+	 * Raw print
+	 * @param a
+	 */
 	public static void print(int[] a){
 			
 		if(a.length==1)
@@ -61,6 +96,17 @@ public class Bubble {
 		for(int i=0; i<a.length;i++)
 		System.out.println(a[i]+",");
 	}
-	
+	/**
+	 * Generic Print
+	 * @param a
+	 */
+	public static <E> void print(E[] a){
+		
+		if(a.length==1)
+			System.out.println(a[0]);
+		for(int i=0; i<a.length;i++)
+		System.out.println(a[i]+",");
+	}
+		
 
 }

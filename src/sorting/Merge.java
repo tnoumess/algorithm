@@ -15,6 +15,10 @@ package sorting;
 public class Merge {
 
 	/**
+	 * We could not create a generic merge function 
+	 * due to the impossibility of creating a 
+	 * Generic array(for the merge) in Java. 
+	 * 
 	 * @param args
 	 */
 	
@@ -48,11 +52,33 @@ int[] a;
 		return Utils.merge(a, left, right);
 					
 	}
+	
+	/**
+	 * 
+	 * @param a is an array of integer
+	 * @return an   ordered copy of array a
+	 * Time Complexity O(n.log(n))
+	 * Space Complexity O(n)
+	 * 
+	 */
+	
 	public static void print(int[] a){		
 		if(a.length==1)
 			System.out.println(a[0]);
 		for(int i=0; i<a.length;i++)
 		System.out.print(a[i]+",");
+	}
+	
+	/**
+	 * Generic Print
+	 * @param a
+	 */
+	public static <E> void print(E[] a){
+		
+		if(a.length==1)
+			System.out.println(a[0]);
+		for(int i=0; i<a.length;i++)
+		System.out.println(a[i]+",");
 	}
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
