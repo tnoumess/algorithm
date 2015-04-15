@@ -195,7 +195,7 @@ private	int size;
 	p.Insert(20);
 	//p.Insert(12);
 	
-	System.out.println(p);
+	System.out.println(p.peek());
 	p.remove();
 	System.out.println(p);
 	p.remove();

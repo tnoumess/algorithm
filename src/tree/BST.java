@@ -79,6 +79,29 @@ private Node<E> delete(E val,Node<E> n){
 	return n;
 }*/
 
+public static <E extends Comparable<E>> boolean compareBST(BST<E> a,BST<E> b){
+	
+	if(a==null&&b==null) return true;
+	
+	
+		
+	return(compareBST(a.root.left,b.root.left)&&compareBST(a.root.right,b.root.right));
+	
+	
+}
+
+private static <E extends Comparable<E>> boolean compareBST(Node<E> a,Node<E> b){
+	
+
+	if(a==null&&b==null) return true;
+	
+	else if(a!=null&&b!=null){
+		
+		return(a.getValue()==b.getValue()&&compareBST(a.left,b.left)&&compareBST(a.right,b.right));
+	}
+	else return false;
+}
+
 /**
  * 
  * Pre_order search
@@ -260,7 +283,10 @@ public String toString() {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 
+		BST<String> a=new BST<String>();
 		BST<String> b=new BST<String>();
+		b.insert("gg");
+		System.out.println(b.height());
 		/*b.insert(10);
 		b.insert(15);
 		b.insert(5);
@@ -269,16 +295,24 @@ public String toString() {
 		b.insert(25);
 		b.insert(13);
 		b.insert(3);*/
+		a.insert("aa");
+		a.insert("za");
+		a.insert("h");
+		
+		a.insert("9hgg");
+		a.insert("0gf");
+		a.insert("yz");
+		
 		b.insert("aa");
 		b.insert("za");
 		b.insert("h");
 		
 		b.insert("9hgg");
-		b.insert("0gf");
+		b.insert("0g");
 		b.insert("yz");
-		System.out.println(b);
-		b.printInorder();
-		System.out.println(b.depth("0yz"));
+		System.out.println(compareBST(a, b));
+		//b.printInorder();
+		//System.out.println(b.depth("0yz"));
 	}
 
 	

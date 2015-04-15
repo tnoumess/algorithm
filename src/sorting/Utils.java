@@ -10,6 +10,8 @@ package sorting;
  * @8:14:08 PM
  * @Utils.java
  */
+
+@SuppressWarnings({"rawtypes","unchecked"})
 public class Utils<E extends Comparable<E>> {
 	
 	public static void swap(int[] a,int i,int j){
@@ -27,22 +29,29 @@ public class Utils<E extends Comparable<E>> {
 	 * @param i Index of element #1 to be swapped 
 	 * @param j Index of element #2 to be swapped
 	 */
-public static <E> void swap(E[] a,int i,int j){
+public static  void swap(Comparable[] a,int i,int j){
 		
 		if(i!=j){
-		E temp=a[i];
+		Comparable temp=a[i];
 		a[i]=a[j];
 		a[j]=temp;
 		}
 		//System.out.println("swapped");		
 	}
-	public static int[] merge(int[] dest,int[] left,int[] right){
+	public static Comparable[] merge(Comparable[] dest,Comparable[] left,Comparable[] right){
+		
+		/*
+		 * Optimization
+		 * If by chance 'dest' is already sorted?
+		 */
+		if(left[left.length-1].compareTo(right[0])<=0) return dest;
+		
 		int dind = 0;
 		int lind = 0;
 		int rind = 0;
 		System.out.println("in merge");
 		while ( lind < left.length && rind < right.length ){
-			if ( left[ lind ] <= right[ rind ] ){
+			if ( left[ lind ].compareTo(right[ rind ])<=0 ){
 			dest[ dind++ ] = left[ lind++ ];
 			} else {
 				
@@ -58,7 +67,7 @@ public static <E> void swap(E[] a,int i,int j){
 			System.out.println("in merge");
 			return dest;
 	}
-	
+	/*
 	public static <E extends Comparable<E>> E[] merge(E[] dest,E[] left,E[] right){
 		int dind = 0;
 		int lind = 0;
@@ -81,5 +90,5 @@ public static <E> void swap(E[] a,int i,int j){
 			System.out.println("in merge");
 			return dest;
 	}
-
+*/
 }
