@@ -3,6 +3,7 @@
  */
 package graph;
 
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.Map;
@@ -17,10 +18,11 @@ import java.util.TreeMap;
  * @12:29:25 AM
  * @AdjacencyList.java
  */
-public class ALDiGraph {
+public class ALDiGraph implements Cloneable{
 	
 	private  int size;
 	
+	private HashMap<String,Integer> indegree;
 	private TreeMap<String, TreeMap<String, Integer>> list;
 	/**
 	 * Create a Direct Graph Using Adjacency List
@@ -28,10 +30,29 @@ public class ALDiGraph {
 	 */
 	public ALDiGraph() {
 		
+		indegree =new HashMap<String, Integer>();
 		list = new TreeMap<String, TreeMap<String,Integer>>();
 		this.size = 0;
 						 
 	}
+	
+	protected Object clone() throws CloneNotSupportedException {
+		
+		ALDiGraph g=new ALDiGraph();
+		
+		for(Map.Entry<String, TreeMap<String,Integer>> entry: list.entrySet()){
+			g.list.put(entry.getKey(), entry.getValue());
+		}
+		for(Map.Entry<String, Integer> entry: indegree.entrySet()){
+		 g.indegree.put(entry.getKey(), entry.getValue());
+			
+		}
+		g.size=size;
+		
+		return g;
+	}
+	
+		
 	
 	/**
 	 * Add a new edge in the graph by filling out its corresponding vertices
@@ -57,15 +78,35 @@ public class ALDiGraph {
 		 TreeMap<String, Integer> h=new TreeMap<String, Integer>();
 		 h.put(to, weight);
 		 list.put(from, h);
+		 indegree.put(from, 0);
+		
 	    }
 	 
 	 if(!list.containsKey(to)){	
 		 size++;
 		 list.put(to, new TreeMap<String, Integer>());
+		 
+	 }
+	 
+	 /**
+	  * insert indegree for topological sorting purposes
+	  */
+	 if(indegree.containsKey(to)){	
+		 		 
+		 indegree.put(to, indegree.get(to)+1);
+	 }
+	 if(!indegree.containsKey(to)){
+		 
+		 indegree.put(to, 1);
 	 }
 	 
 	  }
 
+	public void indegreeList(){
+		
+		System.out.println("indegree:"+indegree.toString());
+	}
+	
 public String getFirstKey(){
 	
 	return list.firstKey();
@@ -156,6 +197,87 @@ public void DFS(){
 	}
 }
 
+/**
+ * Topological sorting
+ * @throws CloneNotSupportedException 
+ */
+
+public void TopologicalSorting() throws CloneNotSupportedException{
+	
+	ALDiGraph g= (ALDiGraph) this.clone();
+	LinkedList<String> ll=new LinkedList<>();
+	while(g.indegree.size()>0){
+		
+		assert FNVOIZ(g.indegree)!=null: "Cycle found Exception";
+		if(FNVOIZ(g.indegree)!=null){
+			String st=FNVOIZ(g.indegree);
+			ll.add(st);
+			
+			g.indegree.remove(st);
+			
+			String[] s=getoutdegree(st, g);
+			
+			reduceindegree(s, g.indegree);
+				
+						
+		}
+	}
+	System.out.print("A topological sorting is:"+ll);
+	System.out.println("\n"+g.toString());
+	
+}
+
+/**
+ * Decrease the number of edge adjacent to [] s
+ * @param s
+ * @param hm
+ */
+private void reduceindegree(String[] s,HashMap<String, Integer> hm){
+	
+	for( int i = 0; i < s.length ; i++){
+		hm.put(s[i],  hm.get(s[i])-1);}
+		
+}
+
+/**
+ * Retrieve the vertices adjacent from st
+ * @param st
+ * @param ag
+ * @return
+ */
+private String[] getoutdegree(String st,ALDiGraph ag){
+	
+	String[] s= new String[ag.list.get(st).size()];
+	//System.out.println(st+":number of outdegree:"+ag.list.get(st).size());
+	int i=0;
+	for(Map.Entry<String, TreeMap<String,Integer>> entry: ag.list.entrySet()){
+		
+		if(entry.getKey()==st){
+			TreeMap<String,Integer> tm=entry.getValue();
+			for(String key: tm.keySet()){
+				s[i]=key;
+				i++;
+			}
+		}
+		
+	}
+	return s;
+	
+}
+/**
+ * Find New Vertex Of Indegree Zero
+ * @param hs
+ * @return
+ */
+private String FNVOIZ(HashMap<String, Integer> hs){
+	
+	for(Map.Entry<String, Integer> entry: hs.entrySet()){
+		
+		if(entry.getValue()==0) return entry.getKey();
+	}
+	return null;
+}
+
 	
 	/* (non-Javadoc)
 	 * @see java.lang.Object#toString()
@@ -166,10 +288,11 @@ public void DFS(){
 	}
 	/**
 	 * @param args
+	 * @throws CloneNotSupportedException 
 	 */
-	public static void main(String[] args) {
+	public static void main(String[] args) throws CloneNotSupportedException {
 		// TODO Auto-generated method stub
-			
+	/*		
 		ALDiGraph adg=new ALDiGraph();
 		adg.addEdge("Austin", "Dallas",200);
 		adg.addEdge("Austin", "Washington",160);
@@ -188,7 +311,24 @@ public void DFS(){
 		System.out.println(adg.toString());
 		adg.BFS();
 		System.out.println();
-		adg.DFS();
+		adg.DFS();*/
+		
+		ALDiGraph ts=new ALDiGraph();
+		ts.addEdge("v1", "v2",200);
+		ts.addEdge("v1", "v4",200);
+		ts.addEdge("v1", "v3",200);
+		ts.addEdge("v2", "v5",200);
+		ts.addEdge("v2", "v4",200);
+		ts.addEdge("v3", "v6",200);
+		ts.addEdge("v4", "v7",200);
+		ts.addEdge("v4", "v6",200);
+		ts.addEdge("v4", "v3",200);
+		ts.addEdge("v5", "v7",200);
+		ts.addEdge("v5", "v4",200);
+		ts.addEdge("v7", "v6",200);
+		ts.indegreeList();
+		ts.TopologicalSorting();
+		//ts.indegreeList();
 	}
 
 }

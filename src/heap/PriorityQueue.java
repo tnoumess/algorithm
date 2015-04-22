@@ -13,8 +13,8 @@
 	 */
 package heap;
 
+import java.lang.reflect.Method;
 import java.util.Arrays;
-
 
 import sorting.Utils;
 
@@ -204,7 +204,9 @@ private	int size;
 	System.out.println(p);
 	p.remove();p.remove();
 	p.Insert(20);
+	
 	System.out.println(p);
+	System.out.println(p.getClass().getMethods()[0]);
 	
 	}
 	

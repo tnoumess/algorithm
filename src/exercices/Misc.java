@@ -3,8 +3,19 @@
  */
 package exercices;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.BitSet;
+import java.util.HashSet;
 import java.util.Hashtable;
+import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Random;
+import java.util.Set;
+
+import sorting.Utils;
 
 /**
  * @author Thierry Edson Noumessi
@@ -174,6 +185,211 @@ public static  boolean validateByte(int n) {
 		System.out.print("["+i+","+k+"]");
 	}
 	
+	public static void stringPermut(String[] s){
+	
+		/*for (int i=0;i<s[0].length();i++){
+			
+			
+			for (int j=0;j<s[1].length();j++){
+				
+				for (int k=0;k<s[2].length();k++){
+					
+					System.out.print(s[0].charAt(i));
+					System.out.print(s[1].charAt(j));
+					System.out.println(s[2].charAt(k));
+								
+					
+				}
+				
+			}
+			
+		}*/
+		int[] iC=new int[5];
+		assert iC.length==5: "d is null";
+		//permute(s,iC,0);
+		
+	}
+	
+	
+	public static void permuteStrings() {
+		List<String> inlist = Arrays.asList("quick","fox","red","pop");
+		List<String> result = new ArrayList<>();
+		for(String each : inlist) {
+			char[] carray = each.toCharArray();
+			List<String> temp = new ArrayList<>();
+			for(char c : carray) {
+				if(result.size() > 0) {
+					for(String eachRes : result) {
+						StringBuilder sb = new StringBuilder(eachRes);
+						sb.append(c);
+						temp.add(sb.toString());
+					}					
+				} else {
+					temp.add(String.valueOf(c));
+
+				}
+			}
+			result = temp;
+		}
+		System.out.println(result);
+	}
+/**
+ * EM Write an efficient function that deletes characters from an ASCII
+ * string. Use the prototype
+ * string removeChars( string str, string remove );
+ * where any character existing in remove must be deleted from str. For example,
+ * given a str of "Battle of the Vowels: Hawaii vs. Grozny" and a remove of
+ * "aeiou", the function should transform str to “Bttl f th Vwls: Hw vs. Grzny”.
+ * Justify any design decisions you make, and discuss the efficiency of your solution.
+ * @param str
+ * @param remove
+ * @return
+ */
+	
+	public static String removeChars( String str, String remove ){
+		 char[] s = str.toCharArray();
+		 char[] r = remove.toCharArray();
+		 int src, dst = 0;
+		 // flags automatically initialized to false, size of 128 assumes ASCII
+		 boolean[] flags = new boolean[128];
+		 // Set flags for characters to be removed
+		 for( src = 0; src < r.length; ++src ){
+		 flags[r[src]] = true;
+		 }
+		 // Now loop through all the characters,
+		 // copying only if they aren’t flagged
+		 for( src = 0; src < s.length; ++src ){
+		 if( !flags[ s[src] ] ){
+		 s[dst++] = s[src];
+		 }
+		 }
+		 return new String( s, 0, dst );
+		}
+	
+	/*
+	* Write a function that reverses the order of the words in a string. For
+    * example, your function should transform the string 
+    * "Do or do not, there is no try." to "try. no is there not, do or Do". 
+    * Assume that all words are space delimited
+    * and treat punctuation the same as letters
+    */
+	
+	public static void reverse(String s){
+		
+		StringBuffer sb1=new StringBuffer();
+		int k=0;
+		StringBuffer sb2=new StringBuffer();
+		StringBuffer sb3=new StringBuffer();
+		
+		
+		for(int i=s.length()-1; i>=0;i--){
+			
+			if(!Character.isWhitespace(s.charAt(i))){
+				
+				sb2.append(s.charAt(i));
+				
+			}
+			if(Character.isWhitespace(s.charAt(i))||i==0) {
+				
+				sb1.append(sb2.reverse());	
+				
+				sb2=new StringBuffer();
+				if(i!=0)sb1.append(" ");
+							
+			}
+			
+		}
+		System.out.println(s.length());
+		System.out.println(sb1.length());
+		assert sb1.length()==s.length():"different lenght";
+		
+		System.out.println(sb1);
+		
+	}
+	
+	/*
+	* Write an efficient function to find the first nonrepeated character in a
+    * string. For instance, the first nonrepeated character in “total” is 'o' and the first
+    * nonrepeated character in “teeter” is 'r'.Discuss the efficiency of your algorithm
+	*
+	 * @param st
+	 * @return
+	 */
+	public static String FNRC(String st){
+		/**
+		 * Time complexity is O(N^2)
+		 */
+		char c;
+		boolean found;
+		HashSet hs=new HashSet();
+		for(int i=0;i<st.length();i++){
+			c=st.charAt(i);
+			found=false;
+			if(i==st.length()-1){
+				if(!hs.contains(Character.toString(c))){
+					return Character.toString(c);
+				}else{
+					return null;
+				}
+			}
+			
+			for(int k=i+1;k<st.length();k++){
+				if(c==st.charAt(k)){
+					found=true;
+					hs.add(Character.toString(c));
+					break;
+				}
+								
+			}
+			if((found==false)&&(!hs.contains(Character.toString(c)))) return Character.toString(c);
+		}
+		
+		return null;
+	}
+	/*
+	* Write an efficient function to find the first nonrepeated character in a
+    * string. For instance, the first nonrepeated character in “total” is 'o' and the first
+    * nonrepeated character in “teeter” is 'r'.Discuss the efficiency of your algorithm
+	*
+	 * @param st
+	 * @return
+	 */
+	public static Character FNRC2(String st){
+		/**
+		 * Time complexity is O(N)
+		 */
+		LinkedHashMap<Character,Integer> lhs=new LinkedHashMap<>();
+		
+		
+		for(int i=0;i<st.length();i++){
+			
+			if(!lhs.containsKey(st.charAt(i))){
+				//System.out.println(st.charAt(i));
+				lhs.put(st.charAt(i), new Integer(1));
+			}else{
+				//System.out.println(lhs.get(Character.toString(st.charAt(i))));
+			   lhs.put(st.charAt(i), new Integer(1+lhs.get(st.charAt(i))));
+			}
+		}
+		
+		for(Map.Entry<Character, Integer> m: lhs.entrySet()){
+			
+			if(m.getValue()==1) return m.getKey();
+			
+		}			
+	
+	return null;
+	
+	}
+	/**
+	 * Write a method to decide if two strings are anagrams or not
+	 * @param st
+	 * @return
+	 */
+	 
+	public static boolean anagramme(String st){
+		return true;
+	} 
 	
 	/**
 	 * @param args
@@ -189,13 +405,39 @@ public static  boolean validateByte(int n) {
 		//BitSet b=new BitSet();
 		//System.out.println(Runtime.getRuntime().totalMemory());
 	//	printAscii();
-		double x=33;
+	/*	double x=33;
 		char c='/';
 		System.out.println((char)x);
 		System.out.println(2.5%1);
 		System.out.println(Math.abs(5));
 		System.out.println(NumbSq(12));
-	CustumFibo(00);	
+	CustumFibo(00);	*/
+		
+		/*
+		int[] iC=new int[6];
+				assert iC.length==5: "bad array";
+				System.out.println(iC.length);*/
+		//System.out.println((new Random()).nextInt(5)+1);
+		//permuteStrings();
+		//String k="Do or do not, there is no try.";
+		//String[] r={"o"};
+		//System.out.println(r.length);
+		//char[] cc=k.toCharArray();
+		//char c=(char)299;
+	//	System.out.println();
+		//reverse(k);
+		/*
+		String s="sdofh";
+		boolean[] b= new boolean[256];
+		int x=s.charAt(1);
+		System.out.println(FNRC2("pksoqokoppd"));
+		
+		System.out.println((char)126); */
+		
+		//convert int to its corresponding ASCII char
+				System.out.println((char)192);
+				int xx='d';
+				System.out.println(xx=' ');
 	}
 
 }
